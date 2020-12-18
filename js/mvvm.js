@@ -7,7 +7,8 @@ function Vue(options) {
         self.proxyKeys(key);
     });
 
-    observe(this.data);
+    observe(this.data); // 调用监听器，劫持监听所有属性，如果有变动，则通知订阅者
+    // Compile 扫描和解析每个节点的相关指令（v-model，v-on等指令），如果节点存在v-model，v-on等指令，则解析器Compile初始化这类节点的模板数据，使之可以显示在视图上，然后初始化相应的订阅者（Watcher）
     new Compile(options.el, this);
     options.mounted.call(this); // 所有事情处理好后执行mounted函数
     console.log(this.__proto__)

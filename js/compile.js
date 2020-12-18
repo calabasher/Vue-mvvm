@@ -55,12 +55,16 @@ Compile.prototype = {
             // console.log(attr); 例如这里输出 v-on:click="clickme"
             // console.log(attr.name); 例如这里输出 v-on:click
             var attrName = attr.name;
+            // 判断是否 v- 类型指令
             if (self.isDirective(attrName)) {
                 var exp = attr.value;
                 var dir = attrName.substring(2);
-                if (self.isEventDirective(dir)) {  // 事件指令
+                // 判断是否 on- 类型事件指令
+                if (self.isEventDirective(dir)) {  
+                    // 事件指令
                     self.compileEvent(node, self.vm, exp, dir);
-                } else {  // v-model 指令
+                } else {  
+                    // v-model 指令
                     self.compileModel(node, self.vm, exp, dir);
                 }
                 node.removeAttribute(attrName);
@@ -83,7 +87,7 @@ Compile.prototype = {
             node.addEventListener(eventType, cb.bind(vm), false);
         }
     },
-    compileModel: function (node, vm, exp) {
+    compileModel: function (node, exp) {
         var self = this;
         var val = this.vm[exp];
         this.modelUpdater(node, val);  // 完成挂载，{{ }}中的值被渲染为data中的值

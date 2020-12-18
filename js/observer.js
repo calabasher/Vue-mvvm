@@ -1,3 +1,22 @@
+// data 格式
+// {
+//     el: '#app',
+//     data: {
+//         title: 'hello world',
+//         name: 'canfoo'
+//     },
+//     methods: {
+//         clickMe: function () {
+//             this.title = 'hello world';
+//         }
+//     },
+//     mounted: function () {
+//         window.setTimeout(() => {
+//             this.title = '你好';
+//         }, 1000);
+//     }
+// }
+
 function Observer(data) {
     this.data = data;
     this.walk(data);
@@ -15,6 +34,9 @@ Observer.prototype = {
         var dep = new Dep();
         // 递归遍历所有子属性
         var childObj = observe(val);
+        // configurable:false,//能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为true
+        // enumerable:false,//对象属性是否可通过for-in循环，flase为不可循环，默认值为true
+        // writable:false,//对象属性是否可修改,flase为不可修改，默认值为true
         Object.defineProperty(data, key, {
             enumerable: true,
             configurable: true,
@@ -40,7 +62,7 @@ Observer.prototype = {
     }
 };
 
-function observe(value, vm) {
+function observe(value) {
     if (!value || typeof value !== 'object') {
         return;
     }
